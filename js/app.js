@@ -1,46 +1,35 @@
-const elec = document.querySelectorAll(".fade, .vcontain");
-let jumped = document.querySelector("#intro");
-let loaded = false;
+const selects = document.querySelectorAll(".container, .fade, .fade_right");
+const root_var = document.querySelector(":root");
 
 const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (
-        entry.target.classList.contains("vcontain") &&
-        jumped != entry.target &&
-        loaded == true
-      ) {
-        entry.target.scrollIntoView({
-          block: "start",
-          behavior: "smooth",
-        });
-        jumped = entry.target;
-      }
-      if (entry.isIntersecting) {
-        entry.target.classList.add("fade-in");
+  (elements) => {
+    elements.forEach((element) => {
+      if (element.isIntersecting) {
+        if (element.target.classList.contains("container")) {
+          element.target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+
+        if (
+          element.target.classList.contains("fade") ||
+          element.target.classList.contains("fade_right")
+        ) {
+          element.target.classList.add("fade-active");
+        }
       } else {
-        entry.target.classList.remove("fade-in");
+        if (element.target.classList.contains("fade-active")) {
+          element.target.classList.remove("fade-active");
+        }
       }
     });
   },
-  { rootMargin: "60px", threshold: 0.8 },
+  {
+    threshold: 0.65,
+  },
 );
-// const smoother = new IntersectionObserver(
-//   (entries) => {
-//     entries.forEach((entry) => {
-//       console.log(entry);
-//       document.getElementById(entry.target.id.toString()).scrollIntoView(true);
-//     });
-//   },
-//   { rootMargin: "10px", threshold: 0.3 },
-// );
 
-elec.forEach((el) => {
-  observer.observe(el);
+selects.forEach((element) => {
+  observer.observe(element);
 });
-loaded = true;
-
-// const vcontian = document.querySelectorAll(".vcontian");
-// vcontian.forEach((element) => {
-//   smoother.observe(element);
-// });
