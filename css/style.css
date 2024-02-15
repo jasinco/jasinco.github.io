@@ -4,6 +4,7 @@ body {
   font-family: system-ui, sans-serif;
   background-color: #232323;
   color: #999999;
+  contain:paint;
 }
 .container {
   display: flex;
